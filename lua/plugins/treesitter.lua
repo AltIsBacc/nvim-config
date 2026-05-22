@@ -1,6 +1,8 @@
 local M = {
 	"nvim-treesitter/nvim-treesitter",
 	event = "BufReadPost",
+	lazy = false,
+	build = ':TSUpdate',
 	dependencies = {
 		{
 			"nvim-tree/nvim-web-devicons"
@@ -9,7 +11,7 @@ local M = {
 			"JoosepAlviste/nvim-ts-context-commentstring",
 			event = "VeryLazy",
 		},
-	}
+	},	
 }
 
 function M.config()
@@ -17,7 +19,7 @@ function M.config()
 		require('luau-lsp').treesitter()
 	end
 
-	require('nvim-treesitter.configs').setup {
+	require('nvim-treesitter').setup {
 		ensure_installed = require('settings.languages').langs,
 		highlight = {
 			enabled = true,
