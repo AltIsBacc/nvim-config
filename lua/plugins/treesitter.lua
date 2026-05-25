@@ -11,10 +11,6 @@ local M = {
 }
 
 function M.config()
-	if vim.bo.filetype == "luau" then
-		require('luau-lsp').treesitter()
-	end
-
 	-- nvim-treesitter v1 removed the 'configs' module; options are now set
 	-- directly via vim.treesitter and plugin-level opts/setup on the main module.
 	local langs = require('settings.languages').langs
