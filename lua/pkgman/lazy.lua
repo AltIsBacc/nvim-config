@@ -16,9 +16,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup("plugins", {
 	install = {
-		colorscheme = {
-			require("plugins.colorscheme").name
-		},
+		colorscheme = { "cursor-dark" },
 	},
 	ui = {
 		border = "rounded",

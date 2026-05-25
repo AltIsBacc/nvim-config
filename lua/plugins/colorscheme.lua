@@ -1,12 +1,15 @@
 local M = {
-	"martinsione/darkplus.nvim",
-	name = "darkplus",
+	"ydkulks/cursor-dark.nvim",
+	name = "cursor-dark",
 	lazy = false,
-	priority = 1000
+	priority = 1000,
 }
 
 function M.config()
-	local _, _ = pcall(vim.cmd.colorscheme, M.name)
+	require("cursor-dark").setup({
+		style = "dark",
+		transparent = false,
+	})
 end
 
 return M
