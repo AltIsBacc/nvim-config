@@ -7,11 +7,7 @@ local M = {
 		{
 			"nvim-tree/nvim-web-devicons"
 		},
-		{
-			"JoosepAlviste/nvim-ts-context-commentstring",
-			event = "VeryLazy",
-		},
-	},	
+	},
 }
 
 function M.config()
@@ -19,24 +15,21 @@ function M.config()
 		require('luau-lsp').treesitter()
 	end
 
-	require('nvim-treesitter').setup {
+	require('nvim-treesitter.configs').setup {
 		ensure_installed = require('settings.languages').langs,
 		highlight = {
-			enabled = true,
+			enable = true,
 			disable = { "css" }
 		},
 		autopairs = {
-			enabled = true,
+			enable = true,
 		},
 		indent = {
-			enabled = true,
+			enable = true,
 			disable = { "python", "css" }
 		},
 		sync_install = false
 	}
-
-	vim.g.skip_ts_context_commentstring_module = true
-	require('ts_context_commentstring').setup { }
 end
 
 return M

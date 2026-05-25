@@ -1,19 +1,19 @@
 local M = {
-	  "nvim-lualine/lualine.nvim",
-	  lazy = false,
-	  events = {
-		  "VimEnter",
-		  "InsertEnter",
-		  "BufReadPre",
-		  "BufAdd",
-		  "BufNew",
-		  "BufReadPost"
-	  },
-	  dependencies = {
-		  {
-			  "nvim-tree/nvim-web-devicons"
-		  }
-	  }
+	"nvim-lualine/lualine.nvim",
+	lazy = false,
+	events = {
+		"VimEnter",
+		"InsertEnter",
+		"BufReadPre",
+		"BufAdd",
+		"BufNew",
+		"BufReadPost"
+	},
+	dependencies = {
+		{
+			"nvim-tree/nvim-web-devicons"
+		}
+	}
 }
 
 function M.config()
@@ -28,7 +28,7 @@ function M.config()
         "diagnostics",
         sources = { "nvim_diagnostic" },
         sections = { "error", "warn" },
-        symbols = { error = " ", warn = " " },
+        symbols = { error = " ", warn = " " },
         colored = true,
         always_visible = true
     }
@@ -37,7 +37,7 @@ function M.config()
         "diff",
         colored = true,
         always_visible = false,
-        symbols = { added = " ", modified = " ", removed = " " }, -- changes diff symbols
+        symbols = { added = " ", modified = " ", removed = " " },
         cond = hide_in_width
     }
 
@@ -49,6 +49,20 @@ function M.config()
     local location = {
         "location",
         padding = 0
+    }
+
+    -- Show active LSP clients in statusline
+    local lsp_clients = {
+        function()
+            local clients = vim.lsp.get_clients({ bufnr = 0 })
+            if #clients == 0 then return "" end
+            local names = {}
+            for _, c in ipairs(clients) do
+                table.insert(names, c.name)
+            end
+            return "󰒍 " .. table.concat(names, ", ")
+        end,
+        cond = hide_in_width,
     }
 
     local indent = "indent: " .. vim.fn.shiftwidth()
@@ -67,7 +81,7 @@ function M.config()
             lualine_a = { "mode" },
             lualine_b = { "branch" },
             lualine_c = { diagnostics },
-            lualine_x = { diff, indent, "encoding", filetype },
+            lualine_x = { lsp_clients, diff, indent, "encoding", filetype },
             lualine_y = { location },
             lualine_z = { "progress" }
         }

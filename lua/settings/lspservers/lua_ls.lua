@@ -8,10 +8,12 @@ return {
                 globals = { "vim" },
             },
             workspace = {
-                library = {
-                    [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-                    [vim.fn.stdpath "config" .. "/lua"] = true,
-                },
+                -- Modern array-style library (lua_ls 3.x+)
+                library = vim.list_extend(
+                    vim.api.nvim_get_runtime_file("lua", true),
+                    { vim.fn.stdpath("config") .. "/lua" }
+                ),
+                checkThirdParty = false,
             },
             telemetry = {
                 enable = false,

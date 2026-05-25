@@ -5,9 +5,6 @@ local M = {
 			"hrsh7th/cmp-nvim-lsp"
 		},
 		{
-			"hrsh7th/cmp-nvim-lua"
-		},
-		{
 			"hrsh7th/cmp-buffer"
 		},
 		{
@@ -34,34 +31,34 @@ function M.config()
 		Text = "󰉿",
 		Method = "m",
 		Function = "󰊕",
-		Constructor = "",
-		Field = "",
+		Constructor = "",
+		Field = "",
 		Variable = "󰆧",
 		Class = "󰌗",
-		Interface = "",
-		Module = "",
-		Property = "",
-		Unit = "",
+		Interface = "",
+		Module = "",
+		Property = "",
+		Unit = "",
 		Value = "󰎠",
-		Enum = "",
+		Enum = "",
 		Keyword = "󰌋",
-		Snippet = "",
+		Snippet = "",
 		Color = "󰏘",
 		File = "󰈙",
-		Reference = "",
+		Reference = "",
 		Folder = "󰉋",
-		EnumMember = "",
+		EnumMember = "",
 		Constant = "󰇽",
-		Struct = "",
-		Event = "",
+		Struct = "",
+		Event = "",
 		Operator = "󰆕",
 		TypeParameter = "󰊄",
 		Codeium = "󰚩",
-		Copilot = "",
+		Copilot = "",
 	}
 
 	local cmp = require('cmp')
-	require("luasnip/loaders/from_vscode").lazy_load()
+	require("luasnip.loaders.from_vscode").lazy_load()
 
 	cmp.setup {
 		snippet = {
@@ -71,7 +68,6 @@ function M.config()
 		},
 		sources = {
 			{ name = "nvim_lsp" },
-			{ name = "nvim_lua" },
 			{ name = "buffer" },
 			{ name = "nvim_lsp_signature_help" }
 		},
