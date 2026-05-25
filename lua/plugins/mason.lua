@@ -24,36 +24,16 @@ function M.config()
 		PATH = "prepend"
 	}
 
-	local lang_settings = require('settings.languages')
-
-	-- Flatten lang_servers: build ensure_installed, excluded, and skip servers
-	-- whose binary is already present in PATH (Mason installed = left alone).
 	local ensure_installed = {}
 	local excluded = {}
-	for _, entry in pairs(lang_settings.lang_servers) do
-		local name
-		local autostart  = true
-		local executable = nil
-		if type(entry) == "table" then
-			name       = entry.name
-			autostart  = entry.autostart ~= false
-			executable = entry.executable
-		else
-			name = entry
+
+	for _, server in ipairs(require('settings.languages').lang_servers) do
+		if vim.fn.executable(server.executable) ~= 1 then
+			table.insert(ensure_installed, server.name)
 		end
 
-		-- Skip mason install if the server binary is already in PATH.
-		-- `executable` field overrides the binary name when it differs from the server name.
-		local bin = executable or name
-		if vim.fn.executable(bin) == 1 then
-			goto continue
-		end
-
-		table.insert(ensure_installed, name)
-
-		::continue::
-		if not autostart then
-			table.insert(excluded, name)
+		if not server.autostart then
+			table.insert(excluded, server.name)
 		end
 	end
 

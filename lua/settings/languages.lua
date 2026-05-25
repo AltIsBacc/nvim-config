@@ -17,18 +17,18 @@ M.global_root_markers = {
 	".git",
 }
 
--- Each entry is either a plain server name string, or a table:
+-- Each entry is a table with three required fields:
 -- {
---   name       = "server_name",  -- required
---   autostart  = false,          -- still configured via vim.lsp.config but NOT started
---   executable = "binary-name",  -- optional: override PATH check binary (defaults to name)
+--   name       = "server_name",  -- mason-lspconfig server name
+--   autostart  = true|false,     -- whether vim.lsp.enable() starts it automatically
+--   executable = "binary-name",  -- binary checked in PATH before Mason installs
 -- }
 M.lang_servers = {
-	"emmylua_ls",
-	{ name = "luau_lsp", autostart = false },
-	"ty",
-	"clangd",
-	"neocmake",
+	{ name = "emmylua_ls", autostart = true,  executable = "emmylua_ls" },
+	{ name = "luau_lsp",   autostart = false, executable = "luau-lsp"   },
+	{ name = "ty",         autostart = true,  executable = "ty"         },
+	{ name = "clangd",     autostart = true,  executable = "clangd"     },
+	{ name = "neocmake",   autostart = true,  executable = "neocmake"   },
 }
 
 return M

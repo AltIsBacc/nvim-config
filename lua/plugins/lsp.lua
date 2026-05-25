@@ -17,7 +17,7 @@ function M.config()
         require("blink.cmp").get_lsp_capabilities()
     )
 
-    local settings  = require("settings.languages")
+    local settings = require("settings.languages")
 
     vim.lsp.config("*", {
         root_markers = settings.global_root_markers or { ".git" },
@@ -47,32 +47,20 @@ function M.config()
     })
 
     local servers_to_enable = {}
-    for _, entry in pairs(settings.lang_servers) do
-        local name
-        local autostart = true
-        if type(entry) == "table" then
-            name      = entry.name
-            autostart = entry.autostart ~= false
-        else
-            name = entry
-        end
+    for _, server in ipairs(settings.lang_servers) do
+        local lsp = vim.split(server.name, "@")[1]
+        local ok, mod = pcall(require, "settings.lspservers." .. lsp)
 
-        local lsp = vim.split(name, "@")[1]
-        local ok, server = pcall(require, "settings.lspservers." .. lsp)
-        local opts = (ok and type(server) == "table") and server or {}
-
-        if ok and type(server) == "table" and type(server.setup) == "function" then
-            -- setup() may call vim.lsp.config() itself and return nil
-            -- If it returns a table, lsp.lua owns the vim.lsp.config() call instead.
-            local result = server.setup()
+        if ok and type(mod) == "table" and type(mod.setup) == "function" then
+            local result = mod.setup()
             if type(result) == "table" then
                 vim.lsp.config(lsp, result)
             end
         else
-            vim.lsp.config(lsp, opts)
+            vim.lsp.config(lsp, (ok and type(mod) == "table") and mod or {})
         end
 
-        if autostart then
+        if server.autostart then
             table.insert(servers_to_enable, lsp)
         end
     end
