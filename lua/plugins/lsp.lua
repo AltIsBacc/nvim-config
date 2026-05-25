@@ -17,8 +17,10 @@ function M.config()
         require("cmp_nvim_lsp").default_capabilities()
     )
 
+    local settings  = require("settings.languages")
+
     vim.lsp.config("*", {
-        root_markers = { ".git" },
+        root_markers = settings.global_root_markers or { ".git" },
         capabilities = capabilities,
     })
 
@@ -49,7 +51,6 @@ function M.config()
 
     local servers_to_enable = {}
     for _, entry in pairs(settings.lang_servers) do
-        -- entry is either a plain string or { name=, enabled=false }
         local name
         local entry_enabled = true
         if type(entry) == "table" then
@@ -65,7 +66,6 @@ function M.config()
         local ok, server = pcall(require, "settings.lspservers." .. lsp)
         local opts = (ok and type(server) == "table") and server or {}
 
-        -- Per-server enabled = false also skips registration
         if ok and type(server) == "table" and server.enabled == false then
             goto continue
         end
@@ -73,17 +73,7 @@ function M.config()
         if ok and type(server) == "table" and type(server.setup) == "function" then
             server.setup()
         else
-            -- Merge global root_markers with any per-server root_markers
-            local server_rm = (type(opts.root_markers) == "table") and opts.root_markers or {}
-            local merged_rm = vim.deepcopy(global_rm)
-            for _, m in ipairs(server_rm) do
-                table.insert(merged_rm, m)
-            end
-
-            local final_opts = vim.tbl_deep_extend("force", opts, {
-                root_markers = merged_rm,
-            })
-            vim.lsp.config(lsp, final_opts)
+            vim.lsp.config(lsp, opts)
             table.insert(servers_to_enable, lsp)
         end
 

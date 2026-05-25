@@ -12,7 +12,7 @@ M.langs = {
 	"cmake"
 }
 
--- Root markers applied to ALL language servers (merged with per-server ones)
+-- Root markers applied to ALL servers via vim.lsp.config("*", ...)
 M.global_root_markers = {
 	".git",
 }
