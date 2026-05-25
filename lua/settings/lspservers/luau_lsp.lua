@@ -1,4 +1,5 @@
 local M = {
+	filetypes = { "luau" },
 	settings = {
 		["luau-lsp"] = {
 			inlayHints = {

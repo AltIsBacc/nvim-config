@@ -24,7 +24,7 @@ M.global_root_markers = {
 -- }
 M.lang_servers = {
 	"emmylua_ls",
-	"luau_lsp",
+	{ name = "luau_lsp", autostart = false },
 	"pyright",
 	"clangd",
 	"neocmake",
