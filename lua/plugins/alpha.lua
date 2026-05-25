@@ -77,19 +77,20 @@ function M.config()
 	-- ╔══════════════════════════════════════╗
 	-- ║  Highlights                          ║
 	-- ╚══════════════════════════════════════╝
-	vim.api.nvim_create_autocmd("ColorScheme", {
-		callback = function()
-			vim.api.nvim_set_hl(0, "AlphaHeader",          { fg = "#569cd6", bold = true })
-			vim.api.nvim_set_hl(0, "AlphaButton",          { fg = "#d4d4d4" })
-			vim.api.nvim_set_hl(0, "AlphaButtonShortcut",  { fg = "#4ec9b0", bold = true })
-			vim.api.nvim_set_hl(0, "AlphaFooter",          { fg = "#6a9955", italic = true })
-		end,
-	})
-	-- Apply immediately too
-	vim.api.nvim_set_hl(0, "AlphaHeader",         { fg = "#569cd6", bold = true })
-	vim.api.nvim_set_hl(0, "AlphaButton",         { fg = "#d4d4d4" })
-	vim.api.nvim_set_hl(0, "AlphaButtonShortcut", { fg = "#4ec9b0", bold = true })
-	vim.api.nvim_set_hl(0, "AlphaFooter",         { fg = "#6a9955", italic = true })
+	-- Link to semantic groups so any colorscheme stays consistent:
+	--   header   → Function  (bright accent, usually blue/purple)
+	--   button   → Normal    (readable body text)
+	--   shortcut → Type      (contrasting accent, often teal/green)
+	--   footer   → Comment   (muted, inherits italic from most themes)
+	local function set_highlights()
+		vim.api.nvim_set_hl(0, "AlphaHeader",         { link = "Function" })
+		vim.api.nvim_set_hl(0, "AlphaButton",         { link = "Normal" })
+		vim.api.nvim_set_hl(0, "AlphaButtonShortcut", { link = "Type" })
+		vim.api.nvim_set_hl(0, "AlphaFooter",         { link = "Comment" })
+	end
+
+	set_highlights()
+	vim.api.nvim_create_autocmd("ColorScheme", { callback = set_highlights })
 
 	alpha.setup(dashboard.config)
 end
