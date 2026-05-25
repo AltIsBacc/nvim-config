@@ -28,7 +28,7 @@ function M.config()
 	local excluded = {}
 
 	for _, server in ipairs(require('settings.languages').lang_servers) do
-		if vim.fn.executable(server.executable) ~= 1 then
+		if vim.fn.executable(server.executable or server.name) ~= 1 then
 			table.insert(ensure_installed, server.name)
 		end
 

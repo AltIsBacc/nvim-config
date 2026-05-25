@@ -21,14 +21,14 @@ M.global_root_markers = {
 -- {
 --   name       = "server_name",  -- mason-lspconfig server name
 --   autostart  = true|false,     -- whether vim.lsp.enable() starts it automatically
---   executable = "binary-name",  -- binary checked in PATH before Mason installs
+--   executable = "binary-name",  -- binary checked in PATH before Mason installs (if not defined, name gets used instead)
 -- }
 M.lang_servers = {
-	{ name = "emmylua_ls", autostart = true,  executable = "emmylua_ls" },
-	{ name = "luau_lsp",   autostart = false, executable = "luau-lsp"   },
-	{ name = "ty",         autostart = true,  executable = "ty"         },
-	{ name = "clangd",     autostart = true,  executable = "clangd"     },
-	{ name = "neocmake",   autostart = true,  executable = "neocmake"   },
+	{ name = "emmylua_ls", autostart = true,  },
+	{ name = "luau_lsp",   autostart = false, },
+	{ name = "ty",         autostart = true,  },
+	{ name = "clangd",     autostart = true,  },
+	{ name = "neocmake",   autostart = true,  },
 }
 
 return M
