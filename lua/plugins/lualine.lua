@@ -18,7 +18,6 @@ function M.config()
 	local mode = {
 		"mode",
 		fmt = function(str) return str end,
-		separator = { left = "", right = "" },
 		padding = { left = 1, right = 1 },
 	}
 
@@ -78,7 +77,6 @@ function M.config()
 	local filetype = {
 		"filetype",
 		icons_enabled = true,
-		separator = { left = "", right = "" },
 		padding = { left = 1, right = 1 },
 	}
 
@@ -97,9 +95,8 @@ function M.config()
 			globalstatus   = true,
 			icons_enabled  = true,
 			theme          = "auto",
-			-- No powerline arrows between sections — clean like the screenshot
-			component_separators = { left = "", right = "" },
 			section_separators   = { left = "", right = "" },
+			component_separators = { left = "|", right = "|" },
 			disabled_filetypes   = { "alpha", "dashboard" },
 			always_divide_middle = true,
 		},
