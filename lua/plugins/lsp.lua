@@ -51,7 +51,7 @@ function M.config()
         local opts = ok and server or {}
 
         if ok and type(server.setup) == "function" then
-            server.setup(server.settings or {})
+            server.setup()
         else
             vim.lsp.config(lsp, opts)
         	table.insert(servers_to_enable, lsp)

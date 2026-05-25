@@ -15,11 +15,12 @@ local M = {
 	}
 }
 
-function M.setup(opts)
+function M.setup()
+	print("luaulsp srtup!")
 	require("luau-lsp").setup {
 		sourcemap = { enabled = false },
 		types = { roblox = true },
-		server = opts,
+		server = M.settings,
 	}
 end
 
