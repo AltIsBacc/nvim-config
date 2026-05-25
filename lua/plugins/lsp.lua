@@ -44,18 +44,50 @@ function M.config()
         end,
     })
 
-    local servers_to_enable = {}
-    for _, lsp_string in pairs(require("settings.languages").lang_servers) do
-        local lsp = vim.split(lsp_string, "@")[1]
-        local ok, server = pcall(require, "settings.lspservers." .. lsp)
-        local opts = ok and server or {}
+    local settings  = require("settings.languages")
+    local global_rm = settings.global_root_markers or {}
 
-        if ok and type(server.setup) == "function" then
+    local servers_to_enable = {}
+    for _, entry in pairs(settings.lang_servers) do
+        -- entry is either a plain string or { name=, enabled=false }
+        local name
+        local entry_enabled = true
+        if type(entry) == "table" then
+            name          = entry.name
+            entry_enabled = entry.enabled ~= false
+        else
+            name = entry
+        end
+
+        if not entry_enabled then goto continue end
+
+        local lsp = vim.split(name, "@")[1]
+        local ok, server = pcall(require, "settings.lspservers." .. lsp)
+        local opts = (ok and type(server) == "table") and server or {}
+
+        -- Per-server enabled = false also skips registration
+        if ok and type(server) == "table" and server.enabled == false then
+            goto continue
+        end
+
+        if ok and type(server) == "table" and type(server.setup) == "function" then
             server.setup()
         else
-            vim.lsp.config(lsp, opts)
-        	table.insert(servers_to_enable, lsp)
+            -- Merge global root_markers with any per-server root_markers
+            local server_rm = (type(opts.root_markers) == "table") and opts.root_markers or {}
+            local merged_rm = vim.deepcopy(global_rm)
+            for _, m in ipairs(server_rm) do
+                table.insert(merged_rm, m)
+            end
+
+            local final_opts = vim.tbl_deep_extend("force", opts, {
+                root_markers = merged_rm,
+            })
+            vim.lsp.config(lsp, final_opts)
+            table.insert(servers_to_enable, lsp)
         end
+
+        ::continue::
     end
 
     vim.lsp.enable(servers_to_enable)
