@@ -21,7 +21,7 @@ function M.setup()
 		types     = { roblox = true },
 		server    = M.settings,
 	}
-	-- Return opts so lsp.lua calls vim.lsp.config("luau_lsp", opts)
+
 	return M.settings
 end
 

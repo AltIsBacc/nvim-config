@@ -47,7 +47,6 @@ function M.config()
     })
 
     local settings  = require("settings.languages")
-    local global_rm = settings.global_root_markers or {}
 
     local servers_to_enable = {}
     for _, entry in pairs(settings.lang_servers) do
@@ -65,7 +64,7 @@ function M.config()
         local opts = (ok and type(server) == "table") and server or {}
 
         if ok and type(server) == "table" and type(server.setup) == "function" then
-            -- setup() may call vim.lsp.config() itself and return the opts it used.
+            -- setup() may call vim.lsp.config() itself and return nil
             -- If it returns a table, lsp.lua owns the vim.lsp.config() call instead.
             local result = server.setup()
             if type(result) == "table" then
