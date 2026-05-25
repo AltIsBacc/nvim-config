@@ -20,7 +20,7 @@ M.global_root_markers = {
 -- Each entry is either a plain server name string, or a table:
 -- {
 --   name    = "server_name",  -- required
---   enabled = false,          -- still configured via vim.lsp.config but NOT started
+--   autostart = false,          -- still configured via vim.lsp.config but NOT started
 -- }
 M.lang_servers = {
 	"emmylua_ls",

@@ -52,10 +52,10 @@ function M.config()
     local servers_to_enable = {}
     for _, entry in pairs(settings.lang_servers) do
         local name
-        local enabled = true
+        local autostart = true
         if type(entry) == "table" then
             name    = entry.name
-            enabled = entry.enabled ~= false
+            autostart = entry.autostart ~= false
         else
             name = entry
         end
@@ -67,9 +67,9 @@ function M.config()
         if ok and type(server) == "table" and type(server.setup) == "function" then
             server.setup()
         else
-            -- Always configure — enabled only controls whether we start the server
+            -- Always configure — autostart controls whether we start the server
             vim.lsp.config(lsp, opts)
-            if enabled then
+            if autostart then
                 table.insert(servers_to_enable, lsp)
             end
         end
