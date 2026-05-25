@@ -17,7 +17,6 @@ function M.config()
 	-- Mode with rounded pills (matching the screenshot)
 	local mode = {
 		"mode",
-		fmt = function(str) return str end,
 		padding = { left = 1, right = 1 },
 	}
 
@@ -41,12 +40,13 @@ function M.config()
 			end
 			return {}
 		end,
+		cond = hide_in_width,
 	}
 
 	local diff = {
 		"diff",
 		colored = true,
-		symbols = { added = " ", modified = " ", removed = " " },
+		symbols = { added = "  ", modified = "  ", removed = "  " },
 		cond = hide_in_width,
 	}
 
@@ -56,7 +56,7 @@ function M.config()
 		path = 1,           -- relative path, like the screenshot
 		symbols = {
 			modified = " ●",
-			readonly = " ",
+			readonly = " ",
 			unnamed  = "[No Name]",
 		},
 	}
@@ -82,12 +82,12 @@ function M.config()
 
 	local location = {
 		"location",
-		padding = { left = 1, right = 0 },
+		padding = { left = 1, right = 1 },
 	}
 
 	local progress = {
 		"progress",
-		padding = { left = 0, right = 1 },
+		padding = { left = 1, right = 1 },
 	}
 
 	lualine.setup({
@@ -95,16 +95,16 @@ function M.config()
 			globalstatus   = true,
 			icons_enabled  = true,
 			theme          = "auto",
-			section_separators   = { left = '', right = '' },
-			component_separators = { left = '', right = '' },
+			section_separators   = { right = '', left = '' },
+			component_separators = { right = '', left = '' },
 			disabled_filetypes   = { "alpha", "dashboard" },
 			always_divide_middle = true,
 		},
 		sections = {
 			lualine_a = { mode },
 			lualine_b = { "branch", diff },
-			lualine_c = { filename, diagnostics },
-			lualine_x = { lsp_clients },
+			lualine_c = { filename },
+			lualine_x = { diagnostics, lsp_clients },
 			lualine_y = { location, progress },
 			lualine_z = { filetype },
 		},
