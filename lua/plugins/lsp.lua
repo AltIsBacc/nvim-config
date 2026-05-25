@@ -48,21 +48,30 @@ function M.config()
 
     local servers_to_enable = {}
     for _, server in ipairs(settings.lang_servers) do
-        local lsp = vim.split(server.name, "@")[1]
-        local ok, mod = pcall(require, "settings.lspservers." .. lsp)
+        local ok, config = pcall(require, "settings.lspservers." .. server.name)
+        if not ok or type(config) ~= "table" then
+        	-- vim.notify("Failed to load config for '" .. server.name .. "'")
 
-        if ok and type(mod) == "table" and type(mod.setup) == "function" then
-            local result = mod.setup()
+            vim.lsp.config(server.name, {})
+            table.insert(servers_to_enable, server.name)
+
+            goto continue
+        end
+
+        if type(config.setup) == "function" then
+            local result = config.setup()
             if type(result) == "table" then
-                vim.lsp.config(lsp, result)
+                vim.lsp.config(server.name, result)
             end
         else
-            vim.lsp.config(lsp, (ok and type(mod) == "table") and mod or {})
+            vim.lsp.config(server.name, config)
         end
 
         if server.autostart then
-            table.insert(servers_to_enable, lsp)
+            table.insert(servers_to_enable, server.name)
         end
+
+        ::continue::
     end
 
     vim.lsp.enable(servers_to_enable)
