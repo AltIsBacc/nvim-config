@@ -4,7 +4,7 @@ local M = {
     event = "BufReadPre",
     dependencies = {
         { "hrsh7th/cmp-nvim-lsp" },
-        { "lopi-py/luau-lsp.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
+		{ "lopi-py/luau-lsp.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
         { "williamboman/mason-lspconfig.nvim" },
     },
 }
@@ -47,16 +47,14 @@ function M.config()
     local servers_to_enable = {}
     for _, lsp_string in pairs(require("settings.languages").lang_servers) do
         local lsp = vim.split(lsp_string, "@")[1]
-        table.insert(servers_to_enable, lsp)
-
         local ok, server = pcall(require, "settings.lspservers." .. lsp)
         local opts = ok and server or {}
 
         if ok and type(server.setup) == "function" then
-            -- Server defines its own setup (e.g. luau_lsp uses a wrapper plugin)
             server.setup(server.settings or {})
         else
             vim.lsp.config(lsp, opts)
+        	table.insert(servers_to_enable, lsp)
         end
     end
 

@@ -1,6 +1,3 @@
--- Luau filetype plugin
--- luau-lsp.nvim is already a dependency of lsp.lua; this file just
--- wires up the treesitter integration for *.luau buffers.
 local M = {
 	"lopi-py/luau-lsp.nvim",
 	ft = { "luau" },
