@@ -23,12 +23,25 @@ function M.config()
 	}
 
 	local diagnostics = {
-		"diagnostics",
-		sources = { "nvim_diagnostic" },
-		sections = { "error", "warn" },
-		symbols = { error = " ", warn = " " },
-		colored = true,
-		always_visible = false,
+		function()
+			local count = vim.diagnostic.count(0)
+			local errors   = count[vim.diagnostic.severity.ERROR] or 0
+			local warnings = count[vim.diagnostic.severity.WARN]  or 0
+			local parts = {}
+			if errors   > 0 then table.insert(parts, " " .. errors)   end
+			if warnings > 0 then table.insert(parts, " " .. warnings) end
+			return table.concat(parts, " ")
+		end,
+		color = function()
+			local count = vim.diagnostic.count(0)
+			if (count[vim.diagnostic.severity.ERROR] or 0) > 0 then
+				return { fg = "#f44747" }
+			end
+			if (count[vim.diagnostic.severity.WARN] or 0) > 0 then
+				return { fg = "#ff8800" }
+			end
+			return {}
+		end,
 	}
 
 	local diff = {
