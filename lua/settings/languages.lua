@@ -19,8 +19,9 @@ M.global_root_markers = {
 
 -- Each entry is either a plain server name string, or a table:
 -- {
---   name    = "server_name",  -- required
---   autostart = false,          -- still configured via vim.lsp.config but NOT started
+--   name       = "server_name",  -- required
+--   autostart  = false,          -- still configured via vim.lsp.config but NOT started
+--   executable = "binary-name",  -- optional: override PATH check binary (defaults to name)
 -- }
 M.lang_servers = {
 	"emmylua_ls",
