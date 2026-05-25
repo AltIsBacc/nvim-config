@@ -49,6 +49,19 @@ function M.config()
 		},
 	}
 
+	local lsp_clients = {
+		function()
+			local clients = vim.lsp.get_clients({ bufnr = 0 })
+			if #clients == 0 then return "" end
+			local names = {}
+			for _, c in ipairs(clients) do
+				table.insert(names, c.name)
+			end
+			return "󰒍 " .. table.concat(names, ", ")
+		end,
+		cond = hide_in_width,
+	}
+
 	local filetype = {
 		"filetype",
 		icons_enabled = true,
@@ -81,7 +94,7 @@ function M.config()
 			lualine_a = { mode },
 			lualine_b = { "branch", diff },
 			lualine_c = { filename, diagnostics },
-			lualine_x = {},
+			lualine_x = { lsp_clients },
 			lualine_y = { location, progress },
 			lualine_z = { filetype },
 		},
