@@ -3,18 +3,18 @@ local M = {
     lazy = false,
     event = "BufReadPre",
     dependencies = {
-        { "hrsh7th/cmp-nvim-lsp" },
+        { "saghen/blink.cmp" },
 		{ "lopi-py/luau-lsp.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
         { "williamboman/mason-lspconfig.nvim" },
     },
 }
 
 function M.config()
-    -- Merge cmp capabilities into default LSP capabilities
+    -- Merge blink.cmp capabilities into default LSP capabilities
     local capabilities = vim.tbl_deep_extend(
         "force",
         vim.lsp.protocol.make_client_capabilities(),
-        require("cmp_nvim_lsp").default_capabilities()
+        require("blink.cmp").get_lsp_capabilities()
     )
 
     local settings  = require("settings.languages")

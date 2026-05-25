@@ -1,15 +1,6 @@
 local M = {
 	"windwp/nvim-autopairs",
 	event = "InsertEnter",
-	dependencies = {
-		{
-			"hrsh7th/nvim-cmp",
-			event = {
-				"InsertEnter",
-				"CmdlineEnter"
-			}
-		}
-	}
 }
 
 function M.config()
@@ -29,10 +20,7 @@ function M.config()
         },
 	}
 
-	local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-	local cmp = require('cmp')
-
-	cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done {})
+	-- blink.cmp handles confirm integration natively; no manual event hook needed
 end
 
 return M
