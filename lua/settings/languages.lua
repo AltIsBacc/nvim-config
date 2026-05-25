@@ -13,7 +13,7 @@ M.langs = {
 }
 
 M.lang_servers = {
-	"lua_ls",
+	"emmylua_ls",
 	"luau_lsp",
 	"pyright",
 	"clangd",

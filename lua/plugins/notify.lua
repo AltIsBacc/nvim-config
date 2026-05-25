@@ -8,23 +8,23 @@ function M.config()
 	local notify = require("notify")
 
 	notify.setup({
-		stages = "fade",
+		stages = "slide",
 		timeout = 3000,
-		max_width = 60,
-		max_height = 10,
-		render = "compact",
-		top_down = false,
+		max_width = 40,
+		max_height = 20,
+		render = "wrapped-compact",
+		top_down = true,
 		background_colour = "#000000",
 		icons = {
-			ERROR = " ",
-			WARN  = " ",
-			INFO  = " ",
-			DEBUG = " ",
-			TRACE = "✎ ",
+			ERROR = " ",
+			WARN  = " ",
+			INFO  = " 󰋼",
+			DEBUG = " ",
+			TRACE = " 󰙏",
 		},
+		
 	})
 
-	-- Replace default vim.notify
 	vim.notify = notify
 end
 
