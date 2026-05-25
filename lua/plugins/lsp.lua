@@ -52,32 +52,27 @@ function M.config()
     local servers_to_enable = {}
     for _, entry in pairs(settings.lang_servers) do
         local name
-        local entry_enabled = true
+        local enabled = true
         if type(entry) == "table" then
-            name          = entry.name
-            entry_enabled = entry.enabled ~= false
+            name    = entry.name
+            enabled = entry.enabled ~= false
         else
             name = entry
         end
-
-        if not entry_enabled then goto continue end
 
         local lsp = vim.split(name, "@")[1]
         local ok, server = pcall(require, "settings.lspservers." .. lsp)
         local opts = (ok and type(server) == "table") and server or {}
 
-        if ok and type(server) == "table" and server.enabled == false then
-            goto continue
-        end
-
         if ok and type(server) == "table" and type(server.setup) == "function" then
             server.setup()
         else
+            -- Always configure — enabled only controls whether we start the server
             vim.lsp.config(lsp, opts)
-            table.insert(servers_to_enable, lsp)
+            if enabled then
+                table.insert(servers_to_enable, lsp)
+            end
         end
-
-        ::continue::
     end
 
     vim.lsp.enable(servers_to_enable)
