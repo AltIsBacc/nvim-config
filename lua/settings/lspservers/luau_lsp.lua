@@ -16,12 +16,13 @@ local M = {
 }
 
 function M.setup()
-	print("luaulsp srtup!")
 	require("luau-lsp").setup {
 		sourcemap = { enabled = false },
-		types = { roblox = true },
-		server = M.settings,
+		types     = { roblox = true },
+		server    = M.settings,
 	}
+	-- Return opts so lsp.lua calls vim.lsp.config("luau_lsp", opts)
+	return M.settings
 end
 
 return M

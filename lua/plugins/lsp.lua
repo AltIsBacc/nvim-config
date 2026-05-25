@@ -54,7 +54,7 @@ function M.config()
         local name
         local autostart = true
         if type(entry) == "table" then
-            name    = entry.name
+            name      = entry.name
             autostart = entry.autostart ~= false
         else
             name = entry
@@ -65,13 +65,18 @@ function M.config()
         local opts = (ok and type(server) == "table") and server or {}
 
         if ok and type(server) == "table" and type(server.setup) == "function" then
-            server.setup()
-        else
-            -- Always configure — autostart controls whether we start the server
-            vim.lsp.config(lsp, opts)
-            if autostart then
-                table.insert(servers_to_enable, lsp)
+            -- setup() may call vim.lsp.config() itself and return the opts it used.
+            -- If it returns a table, lsp.lua owns the vim.lsp.config() call instead.
+            local result = server.setup()
+            if type(result) == "table" then
+                vim.lsp.config(lsp, result)
             end
+        else
+            vim.lsp.config(lsp, opts)
+        end
+
+        if autostart then
+            table.insert(servers_to_enable, lsp)
         end
     end
 
