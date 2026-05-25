@@ -26,19 +26,18 @@ function M.config()
 			local errors   = count[vim.diagnostic.severity.ERROR] or 0
 			local warnings = count[vim.diagnostic.severity.WARN]  or 0
 			local parts = {}
-			if errors   > 0 then table.insert(parts, " " .. errors)   end
-			if warnings > 0 then table.insert(parts, " " .. warnings) end
+			if errors   > 0 then table.insert(parts, " " .. errors)   end
+			if warnings > 0 then table.insert(parts, " " .. warnings) end
 			return table.concat(parts, " ")
 		end,
 		color = function()
-			local count = vim.diagnostic.count(0)
-			if (count[vim.diagnostic.severity.ERROR] or 0) > 0 then
-				return { fg = "#f44747" }
-			end
-			if (count[vim.diagnostic.severity.WARN] or 0) > 0 then
-				return { fg = "#ff8800" }
-			end
-			return {}
+    		local count = vim.diagnostic.count(0)
+    		local e = (count[vim.diagnostic.severity.ERROR] or 0) > 0
+    		local w = (count[vim.diagnostic.severity.WARN] or 0) > 0
+
+    		if e then return { fg = "#f44747" } end
+    		if w then return { fg = "#ff8800" } end
+    		return {}
 		end,
 		cond = hide_in_width,
 	}
@@ -52,13 +51,13 @@ function M.config()
 
 	-- Filename: just the name, no full path, with modified indicator
 	local filename = {
-		"filename",
-		path = 1,           -- relative path, like the screenshot
-		symbols = {
-			modified = " ●",
-			readonly = " ",
-			unnamed  = "[No Name]",
-		},
+		function()
+        	local icons = {}
+
+        	if vim.bo.modified then table.insert(icons, '●') end
+        	if vim.bo.readonly then table.insert(icons, '') end
+        	return table.concat(icons, ' ')
+      	end,
 	}
 
 	local lsp_clients = {
@@ -72,12 +71,6 @@ function M.config()
 			return "󰒍 " .. table.concat(names, ", ")
 		end,
 		cond = hide_in_width,
-	}
-
-	local filetype = {
-		"filetype",
-		icons_enabled = true,
-		padding = { left = 1, right = 1 },
 	}
 
 	local location = {
@@ -96,7 +89,7 @@ function M.config()
 			icons_enabled  = true,
 			theme          = "auto",
 			section_separators   = { right = '', left = '' },
-			component_separators = { right = '', left = '' },
+			component_separators = { right = '', left = '' },
 			disabled_filetypes   = { "alpha", "dashboard" },
 			always_divide_middle = true,
 		},
@@ -104,9 +97,9 @@ function M.config()
 			lualine_a = { mode },
 			lualine_b = { "branch", diff },
 			lualine_c = { filename },
-			lualine_x = { diagnostics, lsp_clients },
+			lualine_x = { diagnostics },
 			lualine_y = { location, progress },
-			lualine_z = { filetype },
+			lualine_z = { lsp_clients },
 		},
 	})
 end
