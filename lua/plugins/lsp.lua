@@ -46,8 +46,6 @@ function M.config()
         end,
     })
 
-    local settings  = require("settings.languages")
-
     local servers_to_enable = {}
     for _, entry in pairs(settings.lang_servers) do
         local name
