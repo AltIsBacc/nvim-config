@@ -80,17 +80,10 @@ function M.config()
 				auto_show = true,
 				window = { border = "rounded" },
 			},
-			ghost_text = { enabled = false },
+			ghost_text = { enabled = true },
 		},
 		keymap = {
-			preset = "none",
-			["<C-k>"]     = { "select_prev", "fallback" },
-			["<C-j>"]     = { "select_next", "fallback" },
-			["<C-b>"]     = { "scroll_documentation_up", "fallback" },
-			["<C-f>"]     = { "scroll_documentation_down", "fallback" },
-			["<C-Space>"] = { "show", "fallback" },
-			["<CR>"]      = { "accept", "fallback" },
-			["<C-e>"]     = { "hide", "fallback" },
+			preset = "default",
 		},
 	}
 end
