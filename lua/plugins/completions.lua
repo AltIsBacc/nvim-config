@@ -84,7 +84,8 @@ function M.config()
 		},
 		keymap = {
 			preset = "default",
-			["<Tab>"] = { "select_and_accept", "fallback" },
+			["<Tab>"]  = { "select_and_accept", "fallback" },
+			["<CR>"]   = { "select_and_accept", "fallback" },
 		},
 	}
 end
