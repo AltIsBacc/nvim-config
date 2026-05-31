@@ -9,10 +9,10 @@ M.langs = {
 	"java",
 	"html",
 	"css",
-	"cmake"
+	"cmake",
+	"rust"
 }
 
--- Root markers applied to ALL servers via vim.lsp.config("*", ...)
 M.global_root_markers = {
 	".git",
 }
@@ -24,11 +24,12 @@ M.global_root_markers = {
 --   executable = "binary-name",  -- binary checked in PATH before Mason installs (if not defined, name gets used instead)
 -- }
 M.lang_servers = {
-	{ name = "emmylua_ls", autostart = true,  },
-	{ name = "luau_lsp",   autostart = false, },
-	{ name = "ty",         autostart = true,  },
-	{ name = "clangd",     autostart = true,  },
-	{ name = "neocmake",   autostart = true,  },
+	{ name = "emmylua_ls",    autostart = true,  },
+	{ name = "luau_lsp",      autostart = false, },
+	{ name = "ty",            autostart = true,  },
+	{ name = "clangd",        autostart = true,  },
+	{ name = "neocmake",      autostart = true,  },
+	{ name = "rust-analyzer", autostart = true,  },	
 }
 
 return M
