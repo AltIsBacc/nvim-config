@@ -29,7 +29,7 @@ M.lang_servers = {
 	{ name = "ty",            autostart = true,  },
 	{ name = "clangd",        autostart = true,  },
 	{ name = "neocmake",      autostart = true,  },
-	{ name = "rust-analyzer", autostart = true,  },	
+	{ name = "rust_analyzer", autostart = true, executable="rust-analyzer" },	
 }
 
 return M
